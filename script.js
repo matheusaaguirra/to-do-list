@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', (event) => {
     const modal = document.getElementById("myModal");
     const btnAdd = document.querySelector(".btn-add-lista");
@@ -8,7 +6,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const ul = document.getElementById("lista-ul");
     let currentItem = null;
 
-    // Load list from local storage
     function loadList() {
         const savedList = JSON.parse(localStorage.getItem('minhaLista')) || [];
         savedList.forEach(item => {
@@ -16,13 +13,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
-    // Save list to local storage
     function saveList() {
         const items = Array.from(ul.children).map(li => li.querySelector('span').textContent);
         localStorage.setItem('minhaLista', JSON.stringify(items));
     }
 
-    // Add item to the DOM
     function addItemToDOM(title) {
         const li = document.createElement("li");
         li.className = "lista";
@@ -36,7 +31,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         li.querySelector(".btn-remove").addEventListener('click', removeItem);
     }
 
-    // When the user clicks the button, open the modal to add new item
     btnAdd.onclick = function () {
         currentItem = null;
         modal.style.display = "block";
@@ -44,19 +38,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         submitBtn.textContent = "Adicionar";
     }
 
-    // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         modal.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
 
-    // When the user clicks the submit button, add or edit the list item
     submitBtn.onclick = function () {
         const title = document.getElementById("titulo").value;
         if (title.trim()) {
@@ -67,11 +58,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
             saveList();
             modal.style.display = "none";
-            document.getElementById("titulo").value = ""; // Clear the input field
+            document.getElementById("titulo").value = ""; 
         }
     }
 
-    // Add edit functionality to existing items
     function editItem(event) {
         currentItem = event.currentTarget.parentElement.parentElement;
         document.getElementById("titulo").value = currentItem.querySelector("span").textContent;
@@ -79,13 +69,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         modal.style.display = "block";
     }
 
-    // Add remove functionality to existing items
     function removeItem(event) {
         const li = event.currentTarget.parentElement.parentElement;
         li.remove();
         saveList();
     }
 
-    // Load the list when the page is loaded
     loadList();
 });
